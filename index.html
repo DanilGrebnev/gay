@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тест</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0d0d0d;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(6px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+        }
+
+        .modal {
+            background: #1a1a2e;
+            border: 1px solid #2a2a4a;
+            border-radius: 16px;
+            padding: 40px 48px;
+            max-width: 460px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 24px 80px rgba(0, 0, 0, 0.6);
+            animation: appear 0.35s ease-out;
+        }
+
+        @keyframes appear {
+            from {
+                opacity: 0;
+                transform: scale(0.9) translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .step {
+            display: none;
+        }
+
+        .step.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .question {
+            font-size: 28px;
+            font-weight: 700;
+            color: #e0e0ff;
+            margin-bottom: 32px;
+        }
+
+        .result-text {
+            font-size: 24px;
+            font-weight: 600;
+            color: #ff6b6b;
+            margin-top: 8px;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+        }
+
+        .btn {
+            padding: 12px 40px;
+            font-size: 18px;
+            font-weight: 600;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.15s, box-shadow 0.15s;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn-yes {
+            background: #4ecca3;
+            color: #1a1a2e;
+        }
+
+        .btn-no {
+            background: #e74c3c;
+            color: #fff;
+        }
+
+        .photo-container {
+            margin: 20px 0;
+        }
+
+        .photo-container img {
+            max-width: 100%;
+            border-radius: 12px;
+            border: 2px solid #2a2a4a;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 14px 18px;
+            font-size: 16px;
+            border: 2px solid #2a2a4a;
+            border-radius: 10px;
+            background: #0d0d1a;
+            color: #e0e0ff;
+            outline: none;
+            margin-top: 20px;
+            transition: border-color 0.2s;
+        }
+
+        .input-field:focus {
+            border-color: #4ecca3;
+        }
+
+        .input-field::placeholder {
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+
+<div class="overlay">
+    <div class="modal">
+
+        <div id="step1" class="step active">
+            <div class="question">Ты гей:</div>
+            <div class="buttons">
+                <button class="btn btn-yes" onclick="showStep('stepYes')">Да</button>
+                <button class="btn btn-no" onclick="showStep('step2')">Нет</button>
+            </div>
+        </div>
+
+        <div id="stepYes" class="step">
+            <div class="result-text">Я не сомневался 😏</div>
+        </div>
+
+        <div id="step2" class="step">
+            <div class="question">А честно?</div>
+            <div class="buttons">
+                <button class="btn btn-yes" onclick="showStep('stepYes')">Да</button>
+                <button class="btn btn-no" onclick="showStep('step3')">Нет</button>
+            </div>
+        </div>
+
+        <div id="step3" class="step">
+            <div class="question">То как ты объяснишь это?</div>
+            <div class="photo-container">
+                <img src="photo_2026-03-05_16-12-31.jpg" alt="Фото">
+            </div>
+            <input class="input-field" type="text" placeholder="Напиши объяснение..." oninput="onExplain(this)">
+        </div>
+
+        <div id="step4" class="step">
+            <div class="result-text">Только геи оправдываются 🤡</div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    function showStep(id) {
+        document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+    }
+
+    function onExplain(input) {
+        if (input.value.trim().length > 0) {
+            showStep('step4');
+        }
+    }
+</script>
+
+</body>
+</html>
